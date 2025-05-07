@@ -1,46 +1,47 @@
 a {
-    color: inherit;
-    text-decoration: none;
-    color: #fff;
-    margin-right: 10px;
-  }
-  .sidebar {
-    position: fixed;
-    width: 200px;
-    height: 100%;
-    background-color: #a85f03;
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  color: inherit;
+  text-decoration: none;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.sidebar {
+  position: fixed;
+  width: 200px;
+  height: 100%;
+  background-color: #a85f03;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
     
-  .sidebar h2 {
-    margin-bottom: 30px;
-  }
+.sidebar h2 {
+  margin-bottom: 30px;
+}
     
-  .sidebar nav ul,
-  .sidebar .settings ul {
-    list-style: none;
-    padding: 0;
-  }
+.sidebar nav ul,
+.sidebar .settings ul {
+  list-style: none;
+  padding: 0;
+}
     
-  .sidebar li {
-    padding: 10px 0;
-    cursor: pointer;
-  }
+.sidebar li {
+  padding: 10px 0;
+  cursor: pointer;
+}
     
-  .sidebar li.active {
-    font-weight: bold;
-  }
+.sidebar li.active {
+  font-weight: bold;
+}
     
-  .sidebar li:hover {
-    background-color: #7c4501;
-    color: white;
-  }
+.sidebar li:hover {
+  background-color: #7c4501;
+  color: white;
+}
   
-  .extension{
+.extension{
   color: #f1b11e;
   font-weight: bold;
-  }
+}
