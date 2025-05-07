@@ -14,12 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const statusFilter  = document.getElementById('statusFilter');
     const tableBody     = document.querySelector('.stock-management table tbody');
 
-    searchInput.addEventListener('keydown', e => {
-        if(e.key === 'Enter') {
-            e.preventDefault();
-            filterTable();
-        }
-    });
+    searchInput.addEventListener('input', filterTable);
   
     // whenever any filter changes, re‑run filterTable()
     [ sizeFilter, statusFilter ].forEach(el =>
@@ -36,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const sizeCell   = row.cells[1].textContent;
         const statusSpan = row.cells[4].querySelector('span').textContent;
   
-        // check each criterion
+        // check each criteria
         const matchesSearch = nameCell.includes(searchText);
         const matchesSize   = (sizeValue === 'all') || (sizeCell === sizeValue);
         const matchesStatus = (statusValue === 'all') || (statusSpan === statusValue);
