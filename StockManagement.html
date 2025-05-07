@@ -67,12 +67,21 @@
                 <div class="search-filter">
                     <div class="search-input-wrapper">
                         <i class="fas fa-search"></i>
-                        <input class="searchbar" type="text" placeholder="Search products...">
-                        <select>
-                            <option>All Sizes</option>
+                        <input id="searchInput" class="searchbar" type="text" placeholder="Search products...">
+                        
+                        <select id="sizeFilter">
+                            <option value="all">All Sizes</option>
+                            <option value="50kg">50kg</option>
+                            <option value="25kg">25kg</option>
+                            <option value="10kg">10kg</option>
+                            <option value="5kg">5kg</option>
                           </select>
-                          <select>
-                            <option>All Status</option>
+
+                          <select id="statusFilter">
+                            <option value="all">All Status</option>
+                            <option value="In Stock">In Stock</option>
+                            <option value="Low Stock">Low Stock</option>
+                            <option value="No Stock">No Stock</option>
                           </select>
                     </div>
                 </div>
