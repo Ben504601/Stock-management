@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Management - Bugasan ni Mayang</title>
+    <link rel="stylesheet" href="StockManagement.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Bugasan ni<br>Mayang</h2>
+            <nav>
+                <p class="extension">MAIN</p>
+                <ul>
+                    <li><a href="Dashboard.html">Dashboard</a></li>
+                    <li><a href="UserManagement.html">User Management</a></li>
+                    <li class="active">Products</li>
+                    <li><a href="">Suppliers</a></li>
+                    <li><a href="">Reports</a></li>
+                </ul>
+            </nav>
+            <div class="settings">
+                <p class="extension">SETTINGS</p>
+                <ul>
+                    <li><a href="">Settings</a></li>
+                    <li><a href="">Logout</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="userprofile" onclick="toggledropdown()">
+                    <div class="avatar">A</div>
+                    <span class="username">Admin User</span>
+                    <span class="arrow">▼</span>
+                    <div id="dropdown" class="dropdownmenu">
+                        <a href="#">Profile</a>
+                        <a href="#">About</a>
+                    </div>
+                </div>
+            </header>
+
+            <section class="stock-management">
+                <h1>Stock Management</h1>
+                <p>Monitor and update inventory levels</p>
+
+                <div class="boxzone">
+                    <div class="box">
+                        <p> Total Products</p>
+                        <h1 class="number"> 22 </h1>
+                    </div>
+        
+                    <div class="box">
+                        <p> Low Stock Items </p>
+                        <h1 class="number" id="warning"> 7 </h1>
+                    </div>
+        
+                    <div class="box">
+                        <p> Out Of Stock Items </p>
+                        <h1 class="number" id="attention"> 3 </h1>
+                    </div>
+
+                <div class="search-filter">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search products...">
+                        <select>
+                            <option>All Sizes</option>
+                          </select>
+                          <select>
+                            <option>All Status</option>
+                          </select>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Size</th>
+                            <th>Current Stock</th>
+                            <th>Reorder Level</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dinorado Rice</td>
+                            <td>25kg</td>
+                            <td>100</td>
+                            <td>25</td>
+                            <td><span class="badge teal">In Stock</span></td>
+                            <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
+                        </tr>
+                        <tr>
+                            <td>Jasmine Rice</td>
+                            <td>50kg</td>
+                            <td>50</td>
+                            <td>15</td>
+                            <td><span class="badge teal">In Stock</span></td>
+                            <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script src="StockManagement.js"></script>
+</body>
+</html>
