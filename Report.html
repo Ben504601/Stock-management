@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Bugasan ni Mayang</title>
+    <link rel="stylesheet" href="Report.css">
+    <link rel="stylesheet" href="sidebar.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <h2>Bugasan ni<br>Mayang</h2>
+            <nav>
+                <p class="extension">MAIN</p>
+                <ul>
+                  <li><a href="Dashboard.html">Dashboard</a></li>
+                  <li><a href="UserManagement.html">User Management</a></li>
+                  <li><a href="StockManagement.html">Products</a></li>
+                  <li><a href="Suppliers.html">Suppliers</a></li>
+                  <li class="active">Reports</li>
+                </ul>
+            </nav>
+            <div class="settings">
+                <p class="extension">SETTINGS</p>
+                <ul>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <section class="report-content">
+            <header>
+                <h1>Sales Report</h1>
+                <div class="date-range">
+                  <label for="fromDate">From:</label>
+                  <input type="date" id="fromDate" />
+                  <label for="toDate">To:</label>
+                  <input type="date" id="toDate" />
+                  <button id="generateBtn">Generate</button>
+                </div>
+            </header>
+    
+            <section class="summary-cards">
+                <div class="card">
+                  <p>Total Sales</p>
+                  <h2>₱</h2>
+                </div>
+                <div class="card">
+                  <p>Best Seller</p>
+                  <h2>Item Name</h2>
+                </div>
+                <div class="card">
+                  <p>Units Sold</p>
+                  <h2>0</h2>
+                </div>
+              </section>
+    
+              <section class="charts">
+                <!-- placeholder for chart, e.g. canvas or image -->
+                <div class="chart-box">
+                  <p>Sales Over Time</p>
+                  <canvas id="salesChart"></canvas>
+                </div>
+              </section>
+    
+              <section class="report-table">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Product</th>
+                      <th>Units Sold</th>
+                      <th>Price</th>
+                      <th>Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- dynamic rows -->
+                  </tbody>
+                </table>
+            </section>
+        </section>
+    </div>
+</body>
+</html>
