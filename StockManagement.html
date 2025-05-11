@@ -49,20 +49,21 @@
                 <p>Monitor and update inventory levels</p>
 
                 <div class="boxzone">
-                    <div class="box">
-                        <p> Total Products</p>
-                        <h1 class="number"> 22 </h1>
+                    <div class="box" id="totalItemsBox">
+                        <p> Total Items</p>
+                        <h1 class="number">0</h1>
                     </div>
         
-                    <div class="box">
+                    <div class="box" id="lowStockBox">
                         <p> Low Stock Items </p>
-                        <h1 class="number" id="warning"> 7 </h1>
+                        <h1 class="number" id="warning">0</h1>
                     </div>
         
-                    <div class="box">
+                    <div class="box" id="outStockBox">
                         <p> Out Of Stock Items </p>
-                        <h1 class="number" id="attention"> 3 </h1>
+                        <h1 class="number" id="attention">0</h1>
                     </div>
+                </div>
 
                 <div class="search-filter">
                     <div class="search-input-wrapper">
@@ -82,7 +83,7 @@
                             <option value="In Stock">In Stock</option>
                             <option value="Low Stock">Low Stock</option>
                             <option value="No Stock">No Stock</option>
-                          </select>
+                        </select>
                     </div>
                 </div>
                 <table>
@@ -92,6 +93,7 @@
                             <th>Size</th>
                             <th>Current Stock</th>
                             <th>Reorder Level</th>
+                            <th>Price</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -102,6 +104,7 @@
                             <td>25kg</td>
                             <td>100</td>
                             <td>25</td>
+                            <td>₱200.00</td>
                             <td><span class="badge teal">In Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -110,6 +113,7 @@
                             <td>10kg</td>
                             <td>0</td>
                             <td>40</td>
+                            <td>₱80.00</td>
                             <td><span class="badge red">No Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -118,6 +122,7 @@
                             <td>5kg</td>
                             <td>115</td>
                             <td>60</td>
+                            <td>₱50.00</td>
                             <td><span class="badge teal">In Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -126,6 +131,7 @@
                             <td>50kg</td>
                             <td>50</td>
                             <td>15</td>
+                            <td>₱220.00</td>
                             <td><span class="badge teal">In Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -134,6 +140,7 @@
                             <td>25kg</td>
                             <td>90</td>
                             <td>25</td>
+                            <td>₱120.00</td>
                             <td><span class="badge teal">In Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -142,6 +149,7 @@
                             <td>10kg</td>
                             <td>35</td>
                             <td>40</td>
+                            <td>₱60.00</td>
                             <td><span class="badge yellow">Low Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -150,6 +158,7 @@
                             <td>50kg</td>
                             <td>20</td>
                             <td>15</td>
+                            <td>₱180.00</td>
                             <td><span class="badge teal">In Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -158,6 +167,7 @@
                             <td>25kg</td>
                             <td>60</td>
                             <td>25</td>
+                            <td>₱100.00</td>
                             <td><span class="badge teal">In Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -166,6 +176,7 @@
                             <td>10kg</td>
                             <td>90</td>
                             <td>40</td>
+                            <td>₱70.00</td>
                             <td><span class="badge teal">In Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
@@ -174,6 +185,7 @@
                             <td>5kg</td>
                             <td>50</td>
                             <td>60</td>
+                            <td>₱40.00</td>
                             <td><span class="badge yellow">Low Stock</span></td>
                             <td><a href="#">Edit</a> <a href="#" class="delete">Delete</a></td>
                         </tr>
