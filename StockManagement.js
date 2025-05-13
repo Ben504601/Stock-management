@@ -65,6 +65,26 @@ document.addEventListener('DOMContentLoaded', () => {
     outBox.textContent   = outCount;
   }
 
+  // open/close modal
+  const addBtn   = document.getElementById('addBtn');
+const modal    = document.getElementById('addModal');
+const closeBtn = document.getElementById('modalClose');
+
+addBtn.addEventListener('click', () => {
+  modal.style.display = 'flex';
+});
+
+// Close when you click the “×”
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// Close when you click outside the white box
+window.addEventListener('click', e => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+
   // initialize on load
   filterTable();
 });
