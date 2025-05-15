@@ -28,19 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmDeleteNo = document.getElementById('confirmDeleteNo');
     const editModal = document.getElementById('editModal');
     const editModalClose = document.getElementById('editModalClose');
-    const editConfirmModal = document.getElementById('editConfirmModal');
-    const editConfirmModalClose = document.getElementById('editConfirmModalClose');
-    const confirmEditYes = document.getElementById('confirmEditYes');
-    const confirmEditNo = document.getElementById('confirmEditNo');
 
-    if (!searchInput || !sizeFilter || !statusFilter || !tableBody || !totalBox || !lowBox || !outBox || !addBtn || !addModal || !addModalClose || !deleteModal || !deleteModalClose || !confirmDeleteYes || !confirmDeleteNo || !editModal || !editModalClose || !editConfirmModal || !editConfirmModalClose || !confirmEditYes || !confirmEditNo) {
-        console.error('One or more DOM elements not found:', {
-            searchInput, sizeFilter, statusFilter, tableBody, totalBox, lowBox, outBox, addBtn, addModal, addModalClose,
-            deleteModal, deleteModalClose, confirmDeleteYes, confirmDeleteNo, editModal, editModalClose,
-            editConfirmModal, editConfirmModalClose, confirmEditYes, confirmEditNo
-        });
-        return;
-    }
+    // if (!searchInput || !sizeFilter || !statusFilter || !tableBody || !totalBox || !lowBox || !outBox || !addBtn || !addModal || !addModalClose || !deleteModal || !deleteModalClose || !confirmDeleteYes || !confirmDeleteNo || !editModal || !editModalClose) {
+    //     console.error('One or more DOM elements not found:', {
+    //         searchInput, sizeFilter, statusFilter, tableBody, totalBox, lowBox, outBox, addBtn, addModal, addModalClose,
+    //         deleteModal, deleteModalClose, confirmDeleteYes, confirmDeleteNo, editModal, editModalClose
+    //     });
+    //     return;
+    // }
 
     console.log('All DOM elements found, initializing event listeners...');
 
@@ -88,61 +83,51 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.target === addModal) addModal.style.display = 'none'; 
         if (e.target === deleteModal) deleteModal.style.display = 'none'; 
         if (e.target === editModal) editModal.style.display = 'none'; 
-        if (e.target === editConfirmModal) editConfirmModal.style.display = 'none'; 
     });
 
-    deleteModalClose.addEventListener('click', () => { deleteModal.style.display = 'none'; });
-    confirmDeleteNo.addEventListener('click', () => { deleteModal.style.display = 'none'; });
-    confirmDeleteYes.addEventListener('click', () => {
-        const vid = deleteModal.dataset.variationId;
-        window.location.href = `?delete=${vid}&confirm=yes`;
-    });
-
-    editModalClose.addEventListener('click', () => { editModal.style.display = 'none'; });
-    editConfirmModalClose.addEventListener('click', () => { editConfirmModal.style.display = 'none'; });
-    confirmEditNo.addEventListener('click', () => { editConfirmModal.style.display = 'none'; });
-
-    let currentProduct = null;
-
-    confirmEditYes.addEventListener('click', () => {
-        editConfirmModal.style.display = 'none';
-        if (currentProduct) {
-            try {
-                console.log('Proceeding to edit product:', currentProduct);
-                document.getElementById('editVariationID').value = currentProduct.variationID || '';
-                document.getElementById('editName').value = currentProduct.product_name || '';
-                document.getElementById('editDescription').value = currentProduct.description || '';
-                document.getElementById('editSize').value = currentProduct.size || '';
-                document.getElementById('editPrice').value = currentProduct.price || '';
-                document.getElementById('editQty').value = currentProduct.quantity_on_hand || '';
-                document.getElementById('editReorder').value = currentProduct.reorder_level || '';
-                editModal.style.display = 'flex';
-            } catch (e) {
-                console.error('Error in confirmEditYes:', e);
-            }
-        }
-    });
-
-    window.showDeleteModal = function(vid) {
-        console.log('Showing delete modal for vid:', vid);
+    document.querySelectorAll('a.delete').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const vid = link.dataset.variationId;
+        console.log('Preparing to delete variationID=', vid);
         deleteModal.dataset.variationId = vid;
         deleteModal.style.display = 'flex';
-    };
+      });
+    });
 
-    window.editProduct = function(productJson) {
+    // Confirm no
+    confirmDeleteNo.addEventListener('click', () => {
+      deleteModal.style.display = 'none';
+    });
+
+    // Confirm yes
+    confirmDeleteYes.addEventListener('click', () => {
+    const vid = deleteModal.dataset.variationId;
+    window.location.href = `?delete=${vid}&confirm=yes`;
+  });
+
+
+    document.querySelectorAll('a.edit').forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const json = link.dataset.product;
+
         try {
-            console.log('Edit button clicked with JSON:', productJson);
-            const product = JSON.parse(productJson);
-            if (product && typeof product === 'object') {
-                currentProduct = product;
-                editConfirmModal.style.display = 'flex';
-            } else {
-                console.error('Invalid product data after parsing:', product);
-            }
-        } catch (e) {
-            console.error('Error in editProduct:', e);
-        }
-    };
+          const product = JSON.parse(json);
 
+          document.getElementById('editVariationID').value     = product.variationID || '';
+          document.getElementById('editName').value            = product.product_name || '';
+          document.getElementById('editDescription').value     = product.description || '';
+          document.getElementById('editSize').value            = product.size || '';
+          document.getElementById('editPrice').value           = product.price || '';
+          document.getElementById('editQty').value             = product.quantity_on_hand || '';
+          document.getElementById('editReorder').value         = product.reorder_level || '';
+
+          editModal.style.display = 'flex';
+        } catch (err) {
+          console.error('Failed to parse product JSON:', err, json);
+        }
+      });
+    });
     filterTable();
 });

@@ -233,12 +233,8 @@ foreach ($rows as $r) {
                         <?php foreach ($rows as $r):
                             $status = $r['quantity_on_hand'] == 0 ? 'No Stock' : ($r['quantity_on_hand'] <= $r['reorder_level'] ? 'Low Stock' : 'In Stock');
                             $cls = $r['quantity_on_hand'] == 0 ? 'red' : ($r['quantity_on_hand'] <= $r['reorder_level'] ? 'yellow' : 'teal');
-                            $r = array_map(function($value) { return $value ?? ''; }, $r);
-                            $jsonData = json_encode($r, JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS);
-                            if ($jsonData === false) {
-                                $jsonData = '{}'; // Fallback to empty object if encoding fails
-                            }
-                            $escapedJsonData = addslashes($jsonData);
+                            $r = array_map(fn($v)=>$v??'', $r);
+                            $json = json_encode($r, JSON_HEX_QUOT | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS);
                         ?>
                         <tr>
                             <td><?= htmlspecialchars($r['product_name']) ?></td>
@@ -248,8 +244,8 @@ foreach ($rows as $r) {
                             <td>₱<?= number_format($r['price'], 2) ?></td>
                             <td><span class="badge <?= $cls ?>"><?= $status ?></span></td>
                             <td>
-                                <a href="#" class="edit" onclick="editProduct('<?= $escapedJsonData ?>')">Edit</a>
-                                <a href="#" class="delete" onclick="showDeleteModal(<?= $r['variationID'] ?>)">Delete</a>
+                                <a href="#" class="edit" data-product="<?= htmlspecialchars($json, ENT_QUOTES) ?>">Edit</a>
+                                <a href="#" class="delete" data-variation-id="<?= $r['variationID'] ?>">Delete</a>
                             </td>
                         </tr>
                         <?php endforeach ?>
@@ -290,28 +286,6 @@ foreach ($rows as $r) {
             <p>Are you sure you want to delete this product?</p>
             <button id="confirmDeleteYes">Yes</button>
             <button id="confirmDeleteNo">No</button>
-        </div>
-    </div>
-
-    <!-- Edit Confirmation Modal -->
-    <div id="editConfirmModal" class="modal">
-        <div class="modal-content">
-            <span id="editConfirmModalClose" class="modal-close">×</span>
-            <h2>Confirm Edit</h2>
-            <p>Do you want to edit this product?</p>
-            <button id="confirmEditYes">Yes</button>
-            <button id="confirmEditNo">No</button>
-        </div>
-    </div>
-
-    <!-- Edit Confirmation Modal -->
-    <div id="editConfirmModal" class="modal">
-        <div class="modal-content">
-            <span id="editConfirmModalClose" class="modal-close">×</span>
-            <h2>Confirm Edit</h2>
-            <p>Do you want to edit this product?</p>
-            <button id="confirmEditYes">Yes</button>
-            <button id="confirmEditNo">No</button>
         </div>
     </div>
 
