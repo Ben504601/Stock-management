@@ -262,61 +262,103 @@ if(isset($_GET['msg'])) {
     <!-- Add Product Modal -->
     <div id="addModal" class="modal">
         <div class="modal-content">
-            <span id="addModalClose" class="modal-close">×</span>
-            <h2>Add New Product</h2>
-            <form method="post">
-                <input name="name" placeholder="Product Name" required>
-                <input name="description" placeholder="Description">
-                <select name="size" required>
-                    <option value="" disabled selected>Select a size</option>
-                    <option value="5kg">5kg</option>
-                    <option value="10kg">10kg</option>
-                    <option value="25kg">25kg</option>
-                    <option value="50kg">50kg</option>
-                </select>
-                <input type="number" name="price" step="0.01" placeholder="Price e.g., 150.00" min="0" required>
-                <input type="number" name="quantity_on_hand" placeholder="Qty" min="0" required>
-                <input type="number" name="reorder_level" placeholder="Reorder Level" min="0" required>
-                <button type="submit" name="add_product">Save Product</button>
-            </form>
+            <div class="modal-header">
+                <h2>Add New Product</h2>
+                <span id="addModalClose" class="modal-close">&times;</span>
+            </div>
+             <div class="modal-body">
+                <form method="post">
+                    <label for="addName">Product Name:</label>
+                    <input id="addName" name="name" type="text" placeholder="Enter product name" required>
+
+                    <label for="addDesc">Description:</label>
+                    <input id="addDesc" name="description" type="text" placeholder="Enter description">
+
+                    <label for="addSize">Size:</label>
+                    <select id="addSize" name="size" required>
+                        <option value="" disabled selected>Select a size</option>
+                        <option value="5kg">5kg</option>
+                        <option value="10kg">10kg</option>
+                        <option value="25kg">25kg</option>
+                        <option value="50kg">50kg</option>
+                    </select>
+
+                    <label for="addPrice">Price:</label>
+                    <input id="addPrice" name="price" type="number" step="0.01" min="0" placeholder="e.g., 150.00" required>
+
+                    <label for="addQty">Quantity on Hand:</label>
+                    <input id="addQty" name="quantity_on_hand" type="number" min="0" placeholder="e.g., 50" required>
+
+                    <label for="addReorder">Reorder Level:</label>
+                    <input id="addReorder" name="reorder_level" type="number" min="0" placeholder="e.g., 10" required>
+                    </form>
+            </div>
+            <div class="modal-footer">
+                <button id="addModalCancel" type="button" class="cancel-button">Cancel</button>
+                <button type="submit" name="add_product" formmethod="post" form="addModalForm" class="order-button">Save Product</button>
+            </div>
         </div>
     </div>
 
     <!-- Delete Confirmation Modal -->
     <div id="deleteModal" class="modal">
         <div class="modal-content">
-            <span id="deleteModalClose" class="modal-close">×</span>
-            <h2>Confirm Delete</h2>
-            <p>Are you sure you want to delete this product?</p>
-            <button id="confirmDeleteYes">Yes</button>
-            <button id="confirmDeleteNo">No</button>
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span id="deleteModalClose" class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this product?</p>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmDeleteNo" class="cancel-button">No</button>
+                <button id="confirmDeleteYes" class="order-button">Yes</button>
+            </div>
         </div>
     </div>
 
     <!-- Edit Product Modal -->
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <span id="editModalClose" class="modal-close">×</span>
-            <h2>Edit Product</h2>
-            <form method="post">
-                <input type="hidden" name="variationID" id="editVariationID">
-                <input name="name" id="editName" placeholder="Product Name" required>
-                <input name="description" id="editDescription" placeholder="Description">
-                <select name="size" id="editSize" required>
-                    <option value="" disabled>Select a size</option>
-                    <option value="5kg">5kg</option>
-                    <option value="10kg">10kg</option>
-                    <option value="25kg">25kg</option>
-                    <option value="50kg">50kg</option>
-                </select>
-                <input type="number" name="price" id="editPrice" step="0.01" placeholder="Price e.g., 150.00" min="0" required>
-                <input type="number" name="quantity_on_hand" id="editQty" placeholder="Qty" min="0" required>
-                <input type="number" name="reorder_level" id="editReorder" placeholder="Reorder Level" min="0" required>
-                <button type="submit" name="edit_product">Save Changes</button>
-            </form>
-        </div>
-    </div>
+            <div class="modal-header">
+                <h2>Edit Product</h2>
+                <span id="editModalClose" class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <input type="hidden" name="variationID" id="editVariationID">
 
+                    <label for="editName">Product Name:</label>
+                    <input id="editName" name="name" type="text" placeholder="Enter product name" required>
+
+                    <label for="editDescription">Description:</label>
+                    <input id="editDescription" name="description" type="text" placeholder="Enter description">
+
+                    <label for="editSize">Size:</label>
+                    <select id="editSize" name="size" required>
+                        <option value="" disabled>Select a size</option>
+                        <option value="5kg">5kg</option>
+                        <option value="10kg">10kg</option>
+                        <option value="25kg">25kg</option>
+                        <option value="50kg">50kg</option>
+                    </select>
+
+                    <label for="editPrice">Price:</label>
+                    <input id="editPrice" name="price" type="number" step="0.01" min="0" placeholder="e.g., 150.00" required>
+
+                    <label for="editQty">Quantity on Hand:</label>
+                    <input id="editQty" name="quantity_on_hand" type="number" min="0" placeholder="e.g., 50" required>
+
+                    <label for="editReorder">Reorder Level:</label>
+                    <input id="editReorder" name="reorder_level" type="number" min="0" placeholder="e.g., 10" required>
+                </form>
+            </div>
+                <div class="modal-footer">
+                    <button id="editModalCancel" class="cancel-button">Cancel</button>
+                    <button type="submit" name="edit_product" class="order-button">Save Changes</button>
+                </div>
+            </div>
+        </div>
     <script src="StockManagement.js" defer></script>
 </body>
 </html>

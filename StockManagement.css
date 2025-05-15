@@ -29,6 +29,76 @@ body {
     max-width: 400px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     position: relative;
+    animation: fade-In 0.3s;
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+}
+
+.modal-content form label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.modal-content form input[type="text"],
+.modal-content form input[type="number"],
+.modal-content form select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.modal-content form input[type="text"]:focus,
+.modal-content form input[type="number"]:focus,
+.modal-content form select:focus {
+    outline: none;
+    border-color: #4caf50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.modal-footer {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.modal-footer button,
+.modal-content form button[type="submit"] {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.modal-footer button.cancel-button {
+    background-color: #f44336;
+    color: #fff;
+    margin-right: 8px;
+}
+
+.modal-footer button.cancel-button:hover {
+    background-color: #d32f2f;
+}
+
+.modal-footer button.order-button,
+.modal-content form button[type="submit"] {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.modal-footer button.order-button:hover,
+.modal-content form button[type="submit"]:hover {
+    background-color: #388e3c;
 }
 
 .modal-close {

@@ -28,14 +28,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const confirmDeleteNo = document.getElementById('confirmDeleteNo');
     const editModal = document.getElementById('editModal');
     const editModalClose = document.getElementById('editModalClose');
-
-    // if (!searchInput || !sizeFilter || !statusFilter || !tableBody || !totalBox || !lowBox || !outBox || !addBtn || !addModal || !addModalClose || !deleteModal || !deleteModalClose || !confirmDeleteYes || !confirmDeleteNo || !editModal || !editModalClose) {
-    //     console.error('One or more DOM elements not found:', {
-    //         searchInput, sizeFilter, statusFilter, tableBody, totalBox, lowBox, outBox, addBtn, addModal, addModalClose,
-    //         deleteModal, deleteModalClose, confirmDeleteYes, confirmDeleteNo, editModal, editModalClose
-    //     });
-    //     return;
-    // }
+    const addModalCancel = document.getElementById('addModalCancel');
+    const deleteModalNo = document.getElementById('confirmDeleteNo');
+    const editModalCancel = document.getElementById('editModalCancel');
 
     console.log('All DOM elements found, initializing event listeners...');
 
@@ -78,6 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     addBtn.addEventListener('click', () => { addModal.style.display = 'flex'; });
     addModalClose.addEventListener('click', () => { addModal.style.display = 'none'; });
+    addModalCancel.addEventListener('click', () => {
+      document.getElementById('addModal').style.display = 'none';
+    });
 
     window.addEventListener('click', e => { 
         if (e.target === addModal) addModal.style.display = 'none'; 
@@ -96,16 +94,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Confirm no
-    confirmDeleteNo.addEventListener('click', () => {
-      deleteModal.style.display = 'none';
+    deleteModalNo.addEventListener('click', () => {
+      document.getElementById('addModal').style.display = 'none';
     });
 
     // Confirm yes
     confirmDeleteYes.addEventListener('click', () => {
-    const vid = deleteModal.dataset.variationId;
-    window.location.href = `?delete=${vid}&confirm=yes`;
-  });
-
+      const vid = deleteModal.dataset.variationId;
+      window.location.href = `?delete=${vid}&confirm=yes`;
+    });
 
     document.querySelectorAll('a.edit').forEach(link => {
       link.addEventListener('click', e => {
@@ -129,5 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
     });
+
+    editModalCancel.addEventListener('click', () => {
+      document.getElementById('editModal').style.display = 'none';
+    });
+
     filterTable();
 });
