@@ -1,130 +1,130 @@
 <?php
-// Database connection
-$mysqli = new mysqli('localhost', 'root', '', 'store_information_system');
-if ($mysqli->connect_errno) {
-    die("MySQL error: " . $mysqli->connect_error);
+// StockManagement.php — no sessions, message via GET
+
+// 1) Connect
+$mysqli = new mysqli('localhost','root','','store_information_system');
+if($mysqli->connect_errno) {
+    die("MySQL error: ".$mysqli->connect_error);
 }
 
-// Handle delete with prepared statement
-if (isset($_GET['delete']) && isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
+// 2) Initialize a local $msg
+$msg = '';
+
+// 3) DELETE handler
+if(isset($_GET['delete'], $_GET['confirm']) && $_GET['confirm']==='yes') {
     $vid = (int)$_GET['delete'];
-    $stmt = $mysqli->prepare("DELETE FROM stock WHERE variationID = ?");
-    $stmt->bind_param('i', $vid);
-    $stmt->execute();
-    $stmt->close();
 
-    $stmt = $mysqli->prepare("DELETE FROM variation WHERE variationID = ?");
-    $stmt->bind_param('i', $vid);
-    $stmt->execute();
-    $stmt->close();
+    $stmt = $mysqli->prepare("DELETE FROM stock WHERE variationID=?");
+    $stmt->bind_param('i',$vid);
+    $stmt->execute(); $stmt->close();
 
-    $_SESSION['message'] = "Product variation deleted successfully.";
-    header("Location: StockManagement.php");
+    $stmt = $mysqli->prepare("DELETE FROM variation WHERE variationID=?");
+    $stmt->bind_param('i',$vid);
+    $stmt->execute(); $stmt->close();
+
+    $msg = "Deleted variation #{$vid}.";
+    header("Location: StockManagement.php?msg=".urlencode($msg));
     exit;
 }
 
-// Handle edit
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['edit_product'])) {
-    $vid = (int)$_POST['variationID'];
-    $name = trim($_POST['name']);
-    $description = trim($_POST['description']);
-    $size = trim($_POST['size']);
-    $price = filter_var($_POST['price'], FILTER_VALIDATE_FLOAT, ['options' => ['min_range' => 0]]);
-    $qty = filter_var($_POST['quantity_on_hand'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
-    $reorder = filter_var($_POST['reorder_level'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
+// 4) EDIT handler
+if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['edit_product'])) {
+    $vid   = (int)$_POST['variationID'];
+    $name  = trim($_POST['name']);
+    $desc  = trim($_POST['description']);
+    $size  = trim($_POST['size']);
+    $price = (float)$_POST['price'];
+    $qty   = (int)$_POST['quantity_on_hand'];
+    $reord = (int)$_POST['reorder_level'];
 
-    if ($name && $size && $price !== false && $qty !== false && $reorder !== false) {
-        $stmt = $mysqli->prepare("UPDATE inventory i JOIN variation v ON i.productID = v.productID SET i.name = ?, i.description = ?, v.weight = ?, v.price = ? WHERE v.variationID = ?");
-        $stmt->bind_param('sssdi', $name, $description, $size, $price, $vid);
-        if ($stmt->execute()) {
-            $stmt->close();
+    // update inventory+variation
+    $stmt = $mysqli->prepare("
+      UPDATE inventory i
+      JOIN variation v ON v.productID = i.productID
+      SET i.name=?, i.description=?, v.weight=?, v.price=?
+      WHERE v.variationID=?
+    ");
+    $stmt->bind_param('sssdi',$name,$desc,$size,$price,$vid);
+    $ok1 = $stmt->execute(); $stmt->close();
 
-            $stmt = $mysqli->prepare("UPDATE stock SET quantity_on_hand = ?, reorder_level = ? WHERE variationID = ?");
-            $stmt->bind_param('iii', $qty, $reorder, $vid);
-            if ($stmt->execute()) {
-                $_SESSION['message'] = "Product updated successfully.";
-            } else {
-                $_SESSION['message'] = "Error updating stock: " . $mysqli->error;
-            }
-            $stmt->close();
-        } else {
-            $_SESSION['message'] = "Error updating product: " . $mysqli->error;
-        }
-        header("Location: StockManagement.php");
-        exit;
-    } else {
-        $_SESSION['message'] = "Invalid input data.";
-        header("Location: StockManagement.php");
-        exit;
-    }
+    // update stock
+    $stmt = $mysqli->prepare("
+      UPDATE stock
+      SET quantity_on_hand=?, reorder_level=?
+      WHERE variationID=?
+    ");
+    $stmt->bind_param('iii',$qty,$reord,$vid);
+    $ok2 = $stmt->execute(); $stmt->close();
+
+    $msg = $ok1 && $ok2
+         ? "Updated variation #{$vid}."
+         : "Error updating variation #{$vid}.";
+    header("Location: StockManagement.php?msg=".urlencode($msg));
+    exit;
 }
 
-// Handle add with validation
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
-    $name = trim($_POST['name']);
-    $description = trim($_POST['description']);
-    $size = trim($_POST['size']);
-    $price = filter_var($_POST['price'], FILTER_VALIDATE_FLOAT, ['options' => ['min_range' => 0]]);
-    $qty = filter_var($_POST['quantity_on_hand'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
-    $reorder = filter_var($_POST['reorder_level'], FILTER_VALIDATE_INT, ['options' => ['min_range' => 0]]);
+// 5) ADD handler
+if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['add_product'])) {
+    $name  = trim($_POST['name']);
+    $desc  = trim($_POST['description']);
+    $size  = trim($_POST['size']);
+    $price = (float)$_POST['price'];
+    $qty   = (int)$_POST['quantity_on_hand'];
+    $reord = (int)$_POST['reorder_level'];
 
-    if ($name && $size && $price !== false && $qty !== false && $reorder !== false) {
-        $stmt = $mysqli->prepare("INSERT INTO inventory(name, description) VALUES(?, ?)");
-        $stmt->bind_param('ss', $name, $description);
-        if ($stmt->execute()) {
-            $pid = $stmt->insert_id;
-            $stmt->close();
+    // inventory
+    $stmt = $mysqli->prepare("INSERT INTO inventory(name,description) VALUES(?,?)");
+    $stmt->bind_param('ss',$name,$desc);
+    $ok1 = $stmt->execute();
+    $pid = $stmt->insert_id;
+    $stmt->close();
 
-            $stmt = $mysqli->prepare("INSERT INTO variation(productID, weight, price) VALUES(?, ?, ?)");
-            $stmt->bind_param('isd', $pid, $size, $price);
-            if ($stmt->execute()) {
-                $vid = $stmt->insert_id;
-                $stmt->close();
+    // variation
+    $stmt = $mysqli->prepare("INSERT INTO variation(productID,weight,price) VALUES(?,?,?)");
+    $stmt->bind_param('isd',$pid,$size,$price);
+    $ok2 = $stmt->execute();
+    $vid = $stmt->insert_id;
+    $stmt->close();
 
-                $stmt = $mysqli->prepare("INSERT INTO stock(productID, variationID, quantity_on_hand, reorder_level) VALUES(?, ?, ?, ?)");
-                $stmt->bind_param('iiii', $pid, $vid, $qty, $reorder);
-                if ($stmt->execute()) {
-                    $_SESSION['message'] = "Product added successfully.";
-                } else {
-                    $_SESSION['message'] = "Error adding stock: " . $mysqli->error;
-                }
-                $stmt->close();
-            } else {
-                $_SESSION['message'] = "Error adding variation: " . $mysqli->error;
-            }
-        } else {
-            $_SESSION['message'] = "Error adding inventory: " . $mysqli->error;
-        }
-        header("Location: StockManagement.php");
-        exit;
-    } else {
-        $_SESSION['message'] = "Invalid input data.";
-        header("Location: StockManagement.php");
-        exit;
-    }
+    // stock
+    $stmt = $mysqli->prepare("INSERT INTO stock(productID,variationID,quantity_on_hand,reorder_level) VALUES(?,?,?,?)");
+    $stmt->bind_param('iiii',$pid,$vid,$qty,$reord);
+    $ok3 = $stmt->execute();
+    $stmt->close();
+
+    $msg = ($ok1 && $ok2 && $ok3)
+         ? "Added new variation #{$vid}."
+         : "Error adding new product.";
+    header("Location: StockManagement.php?msg=".urlencode($msg));
+    exit;
 }
 
-// Fetch data
-$sql = "SELECT i.name as product_name, i.description, v.variationID, v.weight as size, v.price, s.quantity_on_hand, s.reorder_level 
-        FROM variation v 
-        JOIN inventory i ON v.productID = i.productID 
-        JOIN stock s ON v.variationID = s.variationID 
+// 6) Fetch all rows
+$sql = "SELECT i.name AS product_name,
+               i.description,
+               v.variationID,
+               v.weight AS size,
+               v.price,
+               s.quantity_on_hand,
+               s.reorder_level
+        FROM variation v
+        JOIN inventory i ON v.productID = i.productID
+        JOIN stock s     ON s.variationID = v.variationID
         ORDER BY i.name, v.weight";
 $result = $mysqli->query($sql);
-if ($result) {
-    $rows = $result->fetch_all(MYSQLI_ASSOC);
-} else {
-    $rows = [];
-    $_SESSION['message'] = "Error fetching data: " . $mysqli->error;
+$rows = $result ? $result->fetch_all(MYSQLI_ASSOC) : [];
+
+// 7) Counters
+$total = count($rows);
+$low   = 0; $out = 0;
+foreach($rows as $r) {
+    if($r['quantity_on_hand']==0) $out++;
+    elseif($r['quantity_on_hand'] <= $r['reorder_level']) $low++;
 }
 
-// Counters
-$total = count($rows);
-$low = 0;
-$out = 0;
-foreach ($rows as $r) {
-    if ($r['quantity_on_hand'] == 0) $out++;
-    elseif ($r['quantity_on_hand'] <= $r['reorder_level']) $low++;
+// 8) Grab any ?msg= from redirect
+if(isset($_GET['msg'])) {
+    $msg = htmlspecialchars($_GET['msg']);
 }
 ?>
 
@@ -160,6 +160,10 @@ foreach ($rows as $r) {
                 </ul>
             </div>
         </aside>
+
+        <?php if($msg): ?>
+            <div class="message"><?= $msg ?></div>
+        <?php endif; ?>
 
         <main class="main-content">
             <header>
