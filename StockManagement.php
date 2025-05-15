@@ -161,10 +161,6 @@ if(isset($_GET['msg'])) {
             </div>
         </aside>
 
-        <?php if($msg): ?>
-            <div class="message"><?= $msg ?></div>
-        <?php endif; ?>
-
         <main class="main-content">
             <header>
                 <div class="userprofile" onclick="toggledropdown()">
@@ -176,10 +172,6 @@ if(isset($_GET['msg'])) {
                         <a href="#">About</a>
                     </div>
                 </div>
-                <?php if (isset($_SESSION['message'])): ?>
-                    <div class="message"><?= $_SESSION['message'] ?></div>
-                    <?php unset($_SESSION['message']); ?>
-                <?php endif; ?>
             </header>
 
             <section class="stock-management">
@@ -267,7 +259,7 @@ if(isset($_GET['msg'])) {
                 <span id="addModalClose" class="modal-close">&times;</span>
             </div>
              <div class="modal-body">
-                <form method="post">
+                <form id="addForm" method="post">
                     <label for="addName">Product Name:</label>
                     <input id="addName" name="name" type="text" placeholder="Enter product name" required>
 
@@ -311,8 +303,8 @@ if(isset($_GET['msg'])) {
                 <p>Are you sure you want to delete this product?</p>
             </div>
             <div class="modal-footer">
-                <button id="confirmDeleteNo" class="cancel-button">No</button>
-                <button id="confirmDeleteYes" class="order-button">Yes</button>
+                <button id="confirmDeleteNo" type="button" class="cancel-button">No</button>
+                <button id="confirmDeleteYes" type="button" class="order-button">Yes</button>
             </div>
         </div>
     </div>
@@ -325,7 +317,7 @@ if(isset($_GET['msg'])) {
                 <span id="editModalClose" class="modal-close">&times;</span>
             </div>
             <div class="modal-body">
-                <form method="post">
+                <form id="editForm" method="post">
                     <input type="hidden" name="variationID" id="editVariationID">
 
                     <label for="editName">Product Name:</label>
@@ -354,8 +346,8 @@ if(isset($_GET['msg'])) {
                 </form>
             </div>
                 <div class="modal-footer">
-                    <button id="editModalCancel" class="cancel-button">Cancel</button>
-                    <button type="submit" name="edit_product" class="order-button">Save Changes</button>
+                    <button id="editModalCancel" type="button" class="cancel-button">Cancel</button>
+                    <button type="submit" form="editForm" name="edit_product" class="order-button">Save Changes</button>
                 </div>
             </div>
         </div>
